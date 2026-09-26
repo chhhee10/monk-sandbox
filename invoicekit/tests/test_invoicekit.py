@@ -31,6 +31,18 @@ class DiscountTest(unittest.TestCase):
     def test_ten_percent(self):
         self.assertEqual(apply_discount(200, 10), 180.0)
 
+    def test_rejects_percent_over_100(self):
+        with self.assertRaises(ValueError):
+            apply_discount(200, 150)
+
+    def test_rejects_negative_percent(self):
+        with self.assertRaises(ValueError):
+            apply_discount(200, -1)
+
+    def test_accepts_zero_and_100_percent(self):
+        self.assertEqual(apply_discount(200, 0), 200.0)
+        self.assertEqual(apply_discount(200, 100), 0.0)
+
 
 class InvoiceTest(unittest.TestCase):
     def test_subtotal(self):
