@@ -8,5 +8,4 @@ def parse_duration(text: str) -> int:
     parts = re.findall(r"(\d+)([hms])", text.strip().lower())
     if not parts:
         raise ValueError(f"not a duration: {text!r}")
-    value, unit = parts[-1]
-    return int(value) * _UNITS[unit]
+    return sum(int(value) * _UNITS[unit] for value, unit in parts)
