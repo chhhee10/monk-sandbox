@@ -1,0 +1,36 @@
+import unittest
+
+from invoicekit import Invoice, Line, apply_discount, format_inr, split_bill
+
+
+class MoneyTest(unittest.TestCase):
+    def test_small_amount(self):
+        self.assertEqual(format_inr(250), "₹250.00")
+
+
+class SplitTest(unittest.TestCase):
+    def test_even_split(self):
+        self.assertEqual(split_bill(90, 3), [30.0, 30.0, 30.0])
+
+    def test_rejects_nobody(self):
+        with self.assertRaises(ValueError):
+            split_bill(90, 0)
+
+
+class DiscountTest(unittest.TestCase):
+    def test_ten_percent(self):
+        self.assertEqual(apply_discount(200, 10), 180.0)
+
+
+class InvoiceTest(unittest.TestCase):
+    def test_subtotal(self):
+        inv = Invoice([Line("Notebook", 2, 45.0), Line("Pen", 3, 10.0)])
+        self.assertEqual(inv.subtotal(), 120.0)
+
+    def test_total_without_discount(self):
+        inv = Invoice([Line("Notebook", 2, 50.0)])
+        self.assertEqual(inv.total(), 118.0)
+
+
+if __name__ == "__main__":
+    unittest.main()
