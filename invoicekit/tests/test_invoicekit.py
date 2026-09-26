@@ -12,6 +12,16 @@ class SplitTest(unittest.TestCase):
     def test_even_split(self):
         self.assertEqual(split_bill(90, 3), [30.0, 30.0, 30.0])
 
+    def test_uneven_split_preserves_total(self):
+        shares = split_bill(100, 3)
+        self.assertEqual(shares, [33.34, 33.33, 33.33])
+        self.assertEqual(sum(shares), 100.0)
+
+    def test_split_distributes_multiple_remainder_paise(self):
+        shares = split_bill(10, 6)
+        self.assertEqual(shares, [1.67, 1.67, 1.67, 1.67, 1.66, 1.66])
+        self.assertEqual(sum(shares), 10.0)
+
     def test_rejects_nobody(self):
         with self.assertRaises(ValueError):
             split_bill(90, 0)
