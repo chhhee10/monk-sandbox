@@ -24,6 +24,12 @@ class ParseDurationTest(unittest.TestCase):
 
 
 class PaginateTest(unittest.TestCase):
+    def test_first_page_returns_first_ten_items(self):
+        self.assertEqual(
+            paginate(list(range(1, 26)), 1),
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        )
+
     def test_rejects_page_zero(self):
         with self.assertRaises(ValueError):
             paginate([1, 2, 3], 0)
