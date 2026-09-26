@@ -10,6 +10,9 @@ class SlugifyTest(unittest.TestCase):
     def test_two_words(self):
         self.assertEqual(slugify("Hello World"), "hello-world")
 
+    def test_collapses_punctuation_and_trims_dashes(self):
+        self.assertEqual(slugify("Hello, World!"), "hello-world")
+
 
 class ParseDurationTest(unittest.TestCase):
     def test_seconds(self):
